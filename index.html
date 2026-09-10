@@ -671,6 +671,447 @@
       </button>
     </section>
 
+    <section data-tela="contratos" class="hidden">
+      <div class="px-5 pt-4 pb-24">
+        <!-- Cabeçalho -->
+        <div class="flex items-end justify-between mb-5">
+          <div>
+            <h1 class="text-2xl font-display font-bold text-neutral-900">Contratos</h1>
+            <p class="text-sm text-neutral-500 mt-0.5" id="contratos-subtitulo">8 ativos &middot; 2 vencidos</p>
+          </div>
+          <button onclick="contratos_abrirNovo()" class="bg-marca-700 hover:bg-marca-800 active:scale-95 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-marca-700/20 transition-all flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            Novo
+          </button>
+        </div>
+
+        <!-- Busca e Filtros -->
+        <div class="flex gap-2 mb-4">
+          <div class="flex-1 relative">
+            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input id="contratos-busca" type="text" placeholder="Buscar inquilino ou imóvel..." oninput="contratos_filtrar()" class="w-full pl-9 pr-4 py-2.5 bg-neutral-100 border border-neutral-200 rounded-xl text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-marca-500/30 focus:border-marca-400 transition-all">
+          </div>
+          <select id="contratos-filtro" onchange="contratos_filtrar()" class="bg-neutral-100 border border-neutral-200 rounded-xl px-3 py-2.5 text-sm text-neutral-700 focus:outline-none focus:ring-2 focus:ring-marca-500/30 appearance-none pr-8" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2378716c'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 8px center;background-size:16px;">
+            <option value="todos">Todos</option>
+            <option value="ativos">Ativos</option>
+            <option value="vencidos">Vencidos</option>
+            <option value="proximos">Próximos do vencimento</option>
+            <option value="finalizados">Finalizados</option>
+          </select>
+        </div>
+
+        <!-- Lista de contratos -->
+        <div id="contratos-lista" class="grid gap-3">
+        </div>
+
+        <!-- Estado vazio -->
+        <div id="contratos-vazio" class="hidden text-center py-16">
+          <svg class="w-16 h-16 mx-auto text-neutral-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <p class="text-neutral-400 text-sm font-medium">Nenhum contrato encontrado</p>
+          <p class="text-neutral-400 text-xs mt-1">Tente alterar os filtros ou crie um novo contrato</p>
+        </div>
+      </div>
+
+      <!-- Modal: Detalhes do Contrato -->
+      <div id="modal-detalhe-contrato" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="fecharModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-white rounded-t-3xl max-h-[88vh] flex flex-col animate-slideUp">
+          <div class="flex items-center justify-between px-5 pt-4 pb-2 border-b border-neutral-100 shrink-0">
+            <h3 class="text-lg font-display font-bold text-neutral-900">Detalhes do Contrato</h3>
+            <button onclick="fecharModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 active:scale-90 transition-all">
+              <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div id="modal-detalhe-contrato-body" class="overflow-y-auto px-5 py-4 pb-8">
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Novo Contrato -->
+      <div id="modal-novo-contrato" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="fecharModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-white rounded-t-3xl max-h-[90vh] flex flex-col animate-slideUp">
+          <div class="flex items-center justify-between px-5 pt-4 pb-2 border-b border-neutral-100 shrink-0">
+            <h3 class="text-lg font-display font-bold text-neutral-900">Novo Contrato</h3>
+            <button onclick="fecharModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 active:scale-90 transition-all">
+              <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Steps -->
+          <div class="px-5 pt-4 shrink-0">
+            <div class="flex items-center gap-2 mb-4">
+              <div id="nc-step-1-ind" class="w-8 h-8 rounded-full bg-marca-700 text-white text-xs font-bold flex items-center justify-center">1</div>
+              <div id="nc-bar-1" class="flex-1 h-0.5 bg-marca-700 rounded"></div>
+              <div id="nc-step-2-ind" class="w-8 h-8 rounded-full bg-neutral-200 text-neutral-500 text-xs font-bold flex items-center justify-center">2</div>
+              <div id="nc-bar-2" class="flex-1 h-0.5 bg-neutral-200 rounded"></div>
+              <div id="nc-step-3-ind" class="w-8 h-8 rounded-full bg-neutral-200 text-neutral-500 text-xs font-bold flex items-center justify-center">3</div>
+            </div>
+          </div>
+
+          <div id="modal-novo-contrato-body" class="overflow-y-auto px-5 py-2 pb-8">
+            <!-- Step 1: Inquilino -->
+            <div id="nc-step-1">
+              <p class="text-sm text-neutral-600 mb-3">Selecione o cliente para o contrato:</p>
+              <div id="nc-lista-clientes" class="grid gap-2">
+              </div>
+            </div>
+            <!-- Step 2: Imóvel -->
+            <div id="nc-step-2" class="hidden">
+              <p class="text-sm text-neutral-600 mb-3">Selecione o imóvel disponível:</p>
+              <div id="nc-lista-imoveis" class="grid gap-2">
+              </div>
+            </div>
+            <!-- Step 3: Valores e Datas -->
+            <div id="nc-step-3" class="hidden">
+              <p class="text-sm text-neutral-600 mb-3">Defina os valores e datas do contrato:</p>
+              <div class="grid gap-3">
+                <div>
+                  <label class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1 block">Valor do Aluguel (R$)</label>
+                  <input id="nc-valor" type="text" placeholder="R$ 0,00" oninput="contratos_mascaraMoeda(this)" class="w-full px-4 py-3 bg-neutral-100 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-marca-500/30">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1 block">Data Início</label>
+                    <input id="nc-data-ini" type="date" class="w-full px-4 py-3 bg-neutral-100 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-marca-500/30">
+                  </div>
+                  <div>
+                    <label class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1 block">Data Vencimento</label>
+                    <input id="nc-data-fim" type="date" class="w-full px-4 py-3 bg-neutral-100 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-marca-500/30">
+                  </div>
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1 block">Taxa Administração (%)</label>
+                  <input id="nc-taxa" type="number" value="8" step="0.5" class="w-full px-4 py-3 bg-neutral-100 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-marca-500/30">
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1 block">Dia de Vencimento</label>
+                  <input id="nc-dia-venc" type="number" value="10" min="1" max="31" class="w-full px-4 py-3 bg-neutral-100 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-marca-500/30">
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-1 block">Cláusulas Resumidas</label>
+                  <textarea id="nc-clausulas" rows="3" placeholder="Ex: Reajuste anual pelo IGP-M, multa de 1 dia de aluguel por dia de atraso..." class="w-full px-4 py-3 bg-neutral-100 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-marca-500/30 resize-none"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botões de navegação do modal -->
+            <div class="flex gap-3 mt-5 pt-3 border-t border-neutral-100">
+              <button id="nc-voltar" onclick="contratos_ncVoltar()" class="hidden flex-1 py-3 rounded-xl border border-neutral-300 text-neutral-700 text-sm font-semibold hover:bg-neutral-50 active:scale-95 transition-all">Voltar</button>
+              <button id="nc-avancar" onclick="contratos_ncAvancar()" class="flex-1 bg-marca-700 hover:bg-marca-800 text-white py-3 rounded-xl text-sm font-semibold active:scale-95 transition-all shadow-lg shadow-marca-700/20">Avançar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var ncCliente = null;
+        var ncImovel = null;
+        var ncStep = 1;
+
+        var contratosData = [
+          { id: 1, inquilino: 'Carlos Eduardo Mendes', imovel: 'Rua das Palmeiras, 245 - Jardins', bairro: 'Jardins', inicio: '2024-01-15', fim: '2026-01-15', valor: 3200, taxa: 8, status: 'ativo', diaVenc: 10, clausulas: 'Reajuste anual pelo IGP-M. Multa de 1 dia de aluguel por dia de atraso. Depósito caução de 1 mês.' },
+          { id: 2, inquilino: 'Fernanda Oliveira Lima', imovel: 'Av. Brasil, 1180 - Centro', bairro: 'Centro', inicio: '2023-06-01', fim: '2025-06-01', valor: 4500, taxa: 7, status: 'ativo', diaVenc: 5, clausulas: 'Reajuste pelo IPCA. Multa de 2% sobre valor do aluguel.' },
+          { id: 3, inquilino: 'Roberto Silva & Cia Ltda', imovel: 'Rua Augusta, 500 - Consolação', bairro: 'Consolação', inicio: '2024-03-10', fim: '2027-03-10', valor: 8500, taxa: 6, status: 'ativo', diaVenc: 15, clausulas: 'Contrato comercial. Reajuste anual por IGP-M. Fiador: Porto Seguro.' },
+          { id: 4, inquilino: 'Ana Beatriz Costa', imovel: 'Rua dos Pinheiros, 89 - Pinheiros', bairro: 'Pinheiros', inicio: '2024-08-01', fim: '2026-08-01', valor: 2800, taxa: 8, status: 'ativo', diaVenc: 10, clausulas: 'Reajuste por IGP-M. Pet permitido (1 cachorro pequeno).' },
+          { id: 5, inquilino: 'Paulo Henrique Souza', imovel: 'Rua das Flores, 320 - Vila Madalena', bairro: 'Vila Madalena', inicio: '2023-02-20', fim: '2025-02-20', valor: 3600, taxa: 8, status: 'vencido', diaVenc: 20, clausulas: 'Reajuste por IPCA. Inadimplência atual: 2 meses.' },
+          { id: 6, inquilino: 'Mariana Rocha Ferreira', imovel: 'Alameda Santos, 950 - Jardins', bairro: 'Jardins', inicio: '2024-05-01', fim: '2026-05-01', valor: 5200, taxa: 7, status: 'proximo', diaVenc: 1, clausulas: 'Reajuste por IGP-M. Garagem inclusa (1 vaga).' },
+          { id: 7, inquilino: 'Tech Solutions Informática', imovel: 'Rua Oscar Freire, 200 - Jardins', bairro: 'Jardins', inicio: '2023-11-01', fim: '2025-11-01', valor: 6800, taxa: 6, status: 'ativo', diaVenc: 10, clausulas: 'Contrato comercial. Reajuste por IGP-M.' },
+          { id: 8, inquilino: 'Juliana Pereira Alves', imovel: 'Rua Harmonia, 150 - Vila Madalena', bairro: 'Vila Madalena', inicio: '2022-09-15', fim: '2024-09-15', valor: 3100, taxa: 8, status: 'finalizado', diaVenc: 15, clausulas: 'Contrato finalizado. Renovação em análise.' },
+          { id: 9, inquilino: 'Ricardo Nunes Barros', imovel: 'Rua Cardoso de Almeida, 780 - Perdizes', bairro: 'Perdizes', inicio: '2024-11-01', fim: '2026-11-01', valor: 2700, taxa: 8, status: 'ativo', diaVenc: 5, clausulas: 'Reajuste por IPCA. Animal de estimação permitido.' },
+          { id: 10, inquilino: 'Clínica Odontológica Sorriso', imovel: 'Av. Paulista, 1450 - Bela Vista', bairro: 'Bela Vista', inicio: '2024-04-01', fim: '2027-04-01', valor: 12000, taxa: 5, status: 'ativo', diaVenc: 10, clausulas: 'Contrato comercial. Reajuste semestral por IGP-M.' }
+        ];
+
+        window.contratos_filtrar = function(){
+          var busca = document.getElementById('contratos-busca').value.toLowerCase();
+          var filtro = document.getElementById('contratos-filtro').value;
+          var lista = document.getElementById('contratos-lista');
+          var vazio = document.getElementById('contratos-vazio');
+          var itens = contratosData.filter(function(c){
+            var matchBusca = !busca || c.inquilino.toLowerCase().indexOf(busca) > -1 || c.imovel.toLowerCase().indexOf(busca) > -1;
+            var matchFiltro = filtro === 'todos' || c.status === filtro;
+            return matchBusca && matchFiltro;
+          });
+          if(itens.length === 0){
+            lista.innerHTML = '';
+            vazio.classList.remove('hidden');
+          } else {
+            vazio.classList.add('hidden');
+            lista.innerHTML = itens.map(function(c){ return contratoCard(c); }).join('');
+          }
+        };
+
+        function contratoCard(c){
+          var badges = {
+            ativo: '<span class="badge bg-green-100 text-green-700">Ativo</span>',
+            vencido: '<span class="badge bg-red-100 text-red-700">Vencido</span>',
+            proximo: '<span class="badge bg-amber-100 text-amber-700">Vence em breve</span>',
+            finalizado: '<span class="badge bg-neutral-200 text-neutral-600">Finalizado</span>'
+          };
+          var ini = c.inicio ? dataBR(c.inicio) : '—';
+          var fim = c.fim ? dataBR(c.fim) : '—';
+          return '<div onclick="contratos_detalhe(' + c.id + ')" class="card bg-white rounded-2xl p-4 shadow-sm border border-neutral-100 cursor-pointer hover:shadow-md active:scale-[0.98] transition-all">' +
+            '<div class="flex items-start justify-between mb-2.5">' +
+              '<div class="flex-1 min-w-0">' +
+                '<h3 class="font-semibold text-neutral-900 text-sm truncate">' + c.inquilino + '</h3>' +
+                '<p class="text-xs text-neutral-500 mt-0.5 truncate">' + c.imovel + '</p>' +
+              '</div>' +
+              badges[c.status] || '' +
+            '</div>' +
+            '<div class="flex items-center justify-between text-xs text-neutral-500">' +
+              '<div class="flex items-center gap-3">' +
+                '<span><span class="text-neutral-400">Início:</span> ' + ini + '</span>' +
+              '</div>' +
+              '<span><span class="text-neutral-400">Fim:</span> ' + fim + '</span>' +
+            '</div>' +
+            '<div class="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">' +
+              '<div>' +
+                '<span class="text-xs text-neutral-400">Aluguel</span>' +
+                '<p class="text-sm font-bold text-neutral-900">' + brl(c.valor) + '</p>' +
+              '</div>' +
+              '<div class="text-right">' +
+                '<span class="text-xs text-neutral-400">Taxa Adm.</span>' +
+                '<p class="text-sm font-semibold text-marca-700">' + c.taxa + '%</p>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }
+
+        window.contratos_detalhe = function(id){
+          var c = contratosData.find(function(x){ return x.id === id; });
+          if(!c) return;
+          var ini = c.inicio ? dataBR(c.inicio) : '—';
+          var fim = c.fim ? dataBR(c.fim) : '—';
+          var html = '<div class="grid gap-4">' +
+            '<div class="bg-neutral-50 rounded-2xl p-4">' +
+              '<h4 class="font-semibold text-neutral-900 mb-1">' + c.inquilino + '</h4>' +
+              '<p class="text-sm text-neutral-600">' + c.imovel + '</p>' +
+              '<p class="text-xs text-neutral-400 mt-1">' + c.bairro + '</p>' +
+            '</div>' +
+            '<div class="grid grid-cols-2 gap-3">' +
+              '<div class="bg-neutral-50 rounded-xl p-3">' +
+                '<span class="text-xs text-neutral-400 block">Início</span>' +
+                '<p class="text-sm font-semibold text-neutral-800">' + ini + '</p>' +
+              '</div>' +
+              '<div class="bg-neutral-50 rounded-xl p-3">' +
+                '<span class="text-xs text-neutral-400 block">Término</span>' +
+                '<p class="text-sm font-semibold text-neutral-800">' + fim + '</p>' +
+              '</div>' +
+              '<div class="bg-neutral-50 rounded-xl p-3">' +
+                '<span class="text-xs text-neutral-400 block">Aluguel</span>' +
+                '<p class="text-sm font-semibold text-neutral-800">' + brl(c.valor) + '</p>' +
+              '</div>' +
+              '<div class="bg-neutral-50 rounded-xl p-3">' +
+                '<span class="text-xs text-neutral-400 block">Taxa Adm.</span>' +
+                '<p class="text-sm font-semibold text-neutral-800">' + c.taxa + '%</p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="bg-neutral-50 rounded-2xl p-4">' +
+              '<h5 class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Cláusulas Resumidas</h5>' +
+              '<p class="text-sm text-neutral-700 leading-relaxed">' + c.clausulas + '</p>' +
+            '</div>' +
+            '<div class="bg-neutral-50 rounded-2xl p-4">' +
+              '<h5 class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Histórico de Reajustes</h5>' +
+              '<div class="grid gap-2">' +
+                '<div class="flex justify-between text-sm"><span class="text-neutral-600">Jan/2024 (IGP-M)</span><span class="font-semibold text-neutral-800">R$ 2.950,00 → R$ 3.200,00</span></div>' +
+                '<div class="flex justify-between text-sm"><span class="text-neutral-600">Jan/2023 (IGP-M)</span><span class="font-semibold text-neutral-800">R$ 2.800,00 → R$ 2.950,00</span></div>' +
+                '<div class="flex justify-between text-sm"><span class="text-neutral-400">Jan/2022 (inicial)</span><span class="font-semibold text-neutral-800">R$ 2.800,00</span></div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="grid grid-cols-2 gap-3">' +
+              '<button onclick="contratos_gerarPDF(' + c.id + ')" class="btn bg-marca-700 hover:bg-marca-800 text-white py-3 rounded-xl text-sm font-semibold active:scale-95 transition-all flex items-center justify-center gap-2">' +
+                '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>' +
+                'Gerar PDF' +
+              '</button>' +
+              '<button onclick="contratos_enviarWhatsApp(' + c.id + ')" class="btn bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-sm font-semibold active:scale-95 transition-all flex items-center justify-center gap-2">' +
+                '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' +
+                'WhatsApp' +
+              '</button>' +
+            '</div>' +
+          '</div>';
+          abrirModal(html, 'Detalhes do Contrato #' + c.id);
+        };
+
+        window.contratos_gerarPDF = function(id){
+          toast('PDF do contrato gerado com sucesso!', 'ok');
+        };
+
+        window.contratos_enviarWhatsApp = function(id){
+          toast('Link do contrato enviado via WhatsApp!', 'ok');
+        };
+
+        window.contratos_abrirNovo = function(){
+          ncCliente = null;
+          ncImovel = null;
+          ncStep = 1;
+          ncCarregarClientes();
+          document.getElementById('nc-valor').value = '';
+          document.getElementById('nc-data-ini').value = '';
+          document.getElementById('nc-data-fim').value = '';
+          document.getElementById('nc-taxa').value = '8';
+          document.getElementById('nc-dia-venc').value = '10';
+          document.getElementById('nc-clausulas').value = '';
+          contratos_ncUpdateSteps();
+          abrirModal('<div id="modal-novo-contrato-content"></div>', 'Novo Contrato');
+          setTimeout(function(){
+            var m = document.getElementById('modal-novo-contrato');
+            document.getElementById('modal-detalhe-contrato').classList.add('hidden');
+            m.classList.remove('hidden');
+          }, 50);
+        };
+
+        function ncCarregarClientes(){
+          var clientes = [
+            { id: 1, nome: 'Maria Helena Vasconcelos', cpf: '123.456.789-00', tel: '(11) 98765-4321' },
+            { id: 2, nome: 'João Pedro Almeida', cpf: '987.654.321-00', tel: '(11) 91234-5678' },
+            { id: 3, nome: 'Patricia Menezes', cpf: '456.789.123-00', tel: '(11) 99876-5432' },
+            { id: 4, nome: 'Gustavo Henrique Lima', cpf: '321.654.987-00', tel: '(11) 97654-3210' },
+            { id: 5, nome: 'Camila Ribeiro Santos', cpf: '654.987.321-00', tel: '(11) 96543-2109' }
+          ];
+          var html = clientes.map(function(cl){
+            return '<div onclick="contratos_ncSelecionaCliente(' + cl.id + ')" class="flex items-center gap-3 p-3 rounded-xl border-2 border-neutral-200 hover:border-marca-400 hover:bg-marca-50/50 cursor-pointer transition-all">' +
+              '<div class="w-10 h-10 rounded-full bg-marca-100 text-marca-700 flex items-center justify-center text-sm font-bold shrink-0">' + cl.nome.split(' ').map(function(n){return n[0];}).slice(0,2).join('') + '</div>' +
+              '<div class="flex-1 min-w-0">' +
+                '<p class="text-sm font-semibold text-neutral-900 truncate">' + cl.nome + '</p>' +
+                '<p class="text-xs text-neutral-500">' + cl.cpf + '</p>' +
+              '</div>' +
+              '<svg class="w-5 h-5 text-neutral-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>' +
+            '</div>';
+          }).join('');
+          document.getElementById('nc-lista-clientes').innerHTML = html;
+        }
+
+        function ncCarregarImoveis(){
+          var imoveis = [
+            { id: 1, end: 'Rua das Acácias, 55 - Moema', quartos: 2, valor: 3500 },
+            { id: 2, end: 'Rua Jurubatuba, 200 - Morumbi', quartos: 3, valor: 4200 },
+            { id: 3, end: 'Av. Morumbi, 6500 - Butantã', quartos: 1, valor: 2200 },
+            { id: 4, end: 'Rua Pamplona, 100 - Jardins', quartos: 2, valor: 3800 }
+          ];
+          var html = imoveis.map(function(im){
+            return '<div onclick="contratos_ncSelecionaImovel(' + im.id + ')" class="flex items-center gap-3 p-3 rounded-xl border-2 border-neutral-200 hover:border-marca-400 hover:bg-marca-50/50 cursor-pointer transition-all">' +
+              '<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">' +
+                '<svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>' +
+              '</div>' +
+              '<div class="flex-1 min-w-0">' +
+                '<p class="text-sm font-semibold text-neutral-900 truncate">' + im.end + '</p>' +
+                '<p class="text-xs text-neutral-500">' + im.quartos + ' quartos &middot; Sugerido: ' + brl(im.valor) + '</p>' +
+              '</div>' +
+              '<svg class="w-5 h-5 text-neutral-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>' +
+            '</div>';
+          }).join('');
+          document.getElementById('nc-lista-imoveis').innerHTML = html;
+        }
+
+        window.contratos_ncSelecionaCliente = function(id){
+          ncCliente = id;
+          ncCarregarImoveis();
+          ncStep = 2;
+          contratos_ncUpdateSteps();
+        };
+
+        window.contratos_ncSelecionaImovel = function(id){
+          ncImovel = id;
+          ncStep = 3;
+          contratos_ncUpdateSteps();
+        };
+
+        window.contratos_ncAvancar = function(){
+          if(ncStep === 3){
+            var valor = document.getElementById('nc-valor').value;
+            var ini = document.getElementById('nc-data-ini').value;
+            var fim = document.getElementById('nc-data-fim').value;
+            var taxa = document.getElementById('nc-taxa').value;
+            var diaVenc = document.getElementById('nc-dia-venc').value;
+            var clausulas = document.getElementById('nc-clausulas').value || 'Sem cláusulas especificadas.';
+            if(!valor || !ini || !fim){
+              toast('Preencha todos os campos obrigatórios', 'erro');
+              return;
+            }
+            var novo = {
+              id: contratosData.length + 1,
+              inquilino: 'Novo Inquilino',
+              imovel: 'Novo Imóvel',
+              bairro: '',
+              inicio: ini,
+              fim: fim,
+              valor: parseFloat(valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0,
+              taxa: parseFloat(taxa) || 8,
+              status: 'ativo',
+              diaVenc: parseInt(diaVenc) || 10,
+              clausulas: clausulas
+            };
+            contratosData.unshift(novo);
+            contratos_filtrar();
+            fecharModal();
+            toast('Contrato criado com sucesso!', 'ok');
+            return;
+          }
+          if(ncStep < 3){
+            ncStep++;
+            contratos_ncUpdateSteps();
+          }
+        };
+
+        window.contratos_ncVoltar = function(){
+          if(ncStep > 1){
+            ncStep--;
+            contratos_ncUpdateSteps();
+          }
+        };
+
+        function contratos_ncUpdateSteps(){
+          document.getElementById('nc-step-1').classList.toggle('hidden', ncStep !== 1);
+          document.getElementById('nc-step-2').classList.toggle('hidden', ncStep !== 2);
+          document.getElementById('nc-step-3').classList.toggle('hidden', ncStep !== 3);
+          document.getElementById('nc-voltar').classList.toggle('hidden', ncStep === 1);
+          var btnAvancar = document.getElementById('nc-avancar');
+          if(ncStep === 3){
+            btnAvancar.textContent = 'Criar Contrato';
+          } else {
+            btnAvancar.textContent = 'Avançar';
+          }
+          for(var i = 1; i <= 3; i++){
+            var ind = document.getElementById('nc-step-' + i + '-ind');
+            if(i <= ncStep){
+              ind.className = 'w-8 h-8 rounded-full bg-marca-700 text-white text-xs font-bold flex items-center justify-center';
+            } else {
+              ind.className = 'w-8 h-8 rounded-full bg-neutral-200 text-neutral-500 text-xs font-bold flex items-center justify-center';
+            }
+          }
+          document.getElementById('nc-bar-1').className = ncStep > 1 ? 'flex-1 h-0.5 bg-marca-700 rounded' : 'flex-1 h-0.5 bg-neutral-200 rounded';
+          document.getElementById('nc-bar-2').className = ncStep > 2 ? 'flex-1 h-0.5 bg-marca-700 rounded' : 'flex-1 h-0.5 bg-neutral-200 rounded';
+        }
+
+        window.contratos_mascaraMoeda = function(el){
+          var v = el.value.replace(/\D/g, '');
+          if(v.length === 0) { el.value = ''; return; }
+          var num = parseInt(v) / 100;
+          el.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        };
+
+        // Override fecharModal para resetar step do novo contrato
+        var fecharOriginal = window.fecharModal;
+        window.fecharModal = function(){
+          ncStep = 1;
+          ncCliente = null;
+          ncImovel = null;
+          document.getElementById('nc-step-1').classList.remove('hidden');
+          document.getElementById('nc-step-2').classList.add('hidden');
+          document.getElementById('nc-step-3').classList.add('hidden');
+          document.getElementById('nc-voltar').classList.add('hidden');
+          document.getElementById('nc-avancar').textContent = 'Avançar';
+          contratos_ncUpdateSteps();
+          fecharOriginal();
+        };
+
+        // Render inicial
+        contratos_filtrar();
+      })();
+      </script>
+    </section>
+
     <!-- TELAS -->
       </main>
 
