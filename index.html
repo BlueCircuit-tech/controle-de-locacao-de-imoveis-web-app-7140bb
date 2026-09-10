@@ -1112,6 +1112,485 @@
       </script>
     </section>
 
+    <section data-tela="pagamentos" class="hidden">
+    <div class="animate-fadeIn">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <h1 class="text-xl font-display font-bold text-gray-900">Pagamentos</h1>
+                <p class="text-sm text-gray-500 mt-0.5">Controle de recebimentos e inadimplência</p>
+            </div>
+            <button onclick="pagamentos_abrirRegistro()" class="bg-red-700 hover:bg-red-800 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 active:scale-95 flex items-center gap-1.5 shadow-md shadow-red-700/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                Registrar
+            </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="bg-white rounded-xl p-3.5 shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <span class="text-xs text-gray-500 font-medium">Pendentes</span>
+                </div>
+                <p class="text-lg font-bold text-gray-900" id="pg-valor-pendentes">R$ 15.480,00</p>
+                <p class="text-xs text-gray-400 mt-0.5"><span id="pg-count-pendentes">5</span> pagamentos</p>
+            </div>
+            <div class="bg-white rounded-xl p-3.5 shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                    <span class="text-xs text-gray-500 font-medium">Recebidos (mês)</span>
+                </div>
+                <p class="text-lg font-bold text-gray-900" id="pg-valor-recebidos">R$ 42.350,00</p>
+                <p class="text-xs text-green-600 mt-0.5 font-medium">↑ 8,2% vs mês anterior</p>
+            </div>
+            <div class="bg-white rounded-xl p-3.5 shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+                    </div>
+                    <span class="text-xs text-gray-500 font-medium">Em atraso</span>
+                </div>
+                <p class="text-lg font-bold text-red-700" id="pg-valor-atrasados">R$ 6.840,00</p>
+                <p class="text-xs text-gray-400 mt-0.5"><span id="pg-count-atrasados">3</span> pagamentos</p>
+            </div>
+            <div class="bg-white rounded-xl p-3.5 shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>
+                    </div>
+                    <span class="text-xs text-gray-500 font-medium">Juros acumulados</span>
+                </div>
+                <p class="text-lg font-bold text-red-600" id="pg-valor-juros">R$ 423,50</p>
+                <p class="text-xs text-gray-400 mt-0.5">Taxa de 2% a.m.</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-3.5 shadow-sm border border-gray-100 mb-4">
+            <svg class="w-full h-28" viewBox="0 0 340 100" preserveAspectRatio="none">
+                <rect x="20" y="60" width="28" height="30" rx="3" fill="#dc2626" opacity="0.15"/>
+                <rect x="62" y="45" width="28" height="45" rx="3" fill="#dc2626" opacity="0.25"/>
+                <rect x="104" y="35" width="28" height="55" rx="3" fill="#dc2626" opacity="0.35"/>
+                <rect x="146" y="25" width="28" height="65" rx="3" fill="#dc2626" opacity="0.5"/>
+                <rect x="188" y="20" width="28" height="70" rx="3" fill="#dc2626" opacity="0.65"/>
+                <rect x="230" y="15" width="28" height="75" rx="3" fill="#dc2626" opacity="0.8"/>
+                <rect x="272" y="30" width="28" height="60" rx="3" fill="#dc2626" opacity="0.95"/>
+                <rect x="314" y="10" width="28" height="80" rx="3" fill="#dc2626"/>
+                <line x1="0" y1="88" x2="340" y2="88" stroke="#e5e7eb" stroke-width="1"/>
+                <text x="20" y="96" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Jan</text>
+                <text x="62" y="96" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Fev</text>
+                <text x="104" y="96" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Mar</text>
+                <text x="146" y="96" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Abr</text>
+                <text x="188" y="96" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Mai</text>
+                <text x="230" y="96" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Jun</text>
+                <text x="272" y="96" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Jul</text>
+                <text x="314" y="96" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Ago</text>
+            </svg>
+        </div>
+
+        <div class="flex gap-2 mb-3">
+            <select id="pg-filtro-mes" onchange="pagamentos_aplicarFiltros()" class="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-red-700/20 focus:border-red-700 appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 10px center;">
+                <option value="todos">Todos os meses</option>
+                <option value="2025-06" selected>Junho / 2025</option>
+                <option value="2025-05">Maio / 2025</option>
+                <option value="2025-04">Abril / 2025</option>
+                <option value="2025-03">Março / 2025</option>
+            </select>
+            <select id="pg-filtro-inquilino" onchange="pagamentos_aplicarFiltros()" class="flex-[2] bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-red-700/20 focus:border-red-700 appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 10px center;">
+                <option value="todos">Todos os inquilinos</option>
+                <option value="1">Carlos Mendes</option>
+                <option value="2">Fernanda Lima</option>
+                <option value="3">Roberto Souza</option>
+                <option value="4">Ana Beatriz</option>
+                <option value="5">Patrícia Oliveira</option>
+                <option value="6">João Pedro</option>
+                <option value="7">Mariana Costa</option>
+                <option value="8">Ricardo Almeida</option>
+            </select>
+        </div>
+
+        <div class="flex rounded-xl bg-gray-100 p-1 mb-4" role="tablist">
+            <button onclick="pagamentos_aba('pendentes')" id="pg-tab-pendentes" role="tab" class="flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-200 bg-white text-gray-900 shadow-sm">Pendentes</button>
+            <button onclick="pagamentos_aba('recebidos')" role="tab" class="flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-gray-500 hover:text-gray-700">Recebidos</button>
+            <button onclick="pagamentos_aba('atrasados')" role="tab" class="flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-gray-500 hover:text-gray-700">Atrasados</button>
+        </div>
+
+        <div id="pg-lista-pendentes" class="space-y-2.5">
+        </div>
+        <div id="pg-lista-recebidos" class="space-y-2.5 hidden">
+        </div>
+        <div id="pg-lista-atrasados" class="space-y-2.5 hidden">
+        </div>
+        <div id="pg-estado-vazio" class="hidden text-center py-12">
+            <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            </div>
+            <p class="text-gray-500 text-sm font-medium">Nenhum pagamento encontrado</p>
+            <p class="text-gray-400 text-xs mt-1">Tente ajustar os filtros</p>
+        </div>
+    </div>
+
+    <div id="pg-modal-registro" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="pagamentos_fecharRegistro()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 transform transition-transform duration-300 translate-y-full" id="pg-modal-sheet">
+            <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+            <h2 class="text-lg font-display font-bold text-gray-900 mb-1">Registrar Pagamento</h2>
+            <p class="text-sm text-gray-500 mb-4">Informe os dados do recebimento</p>
+            <form onsubmit="pagamentos_salvarPagamento(event)">
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Inquilino</label>
+                    <select id="pg-reg-inquilino" required class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-700/20 focus:border-red-700">
+                        <option value="">Selecione o inquilino</option>
+                        <option value="1">Carlos Mendes — Rua Augusta, 120</option>
+                        <option value="2">Fernanda Lima — Av. Paulista, 950</option>
+                        <option value="3">Roberto Souza — Rua Oscar Freire, 45</option>
+                        <option value="4">Ana Beatriz — Rua Haddock Lobo, 78</option>
+                        <option value="5">Patrícia Oliveira — Alameda Lorena, 200</option>
+                        <option value="6">João Pedro — Rua Pamplona, 320</option>
+                        <option value="7">Mariana Costa — Av. Brigadeiro, 1100</option>
+                        <option value="8">Ricardo Almeida — Rua Bela Cintra, 55</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Valor do aluguel (R$)</label>
+                    <input type="text" id="pg-reg-valor" placeholder="R$ 0,00" required class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-700/20 focus:border-red-700" oninput="pagamentos_mascaraMoeda(this)">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Data de vencimento</label>
+                    <input type="date" id="pg-reg-vencimento" required class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-700/20 focus:border-red-700">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Forma de pagamento</label>
+                    <select id="pg-reg-forma" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-700/20 focus:border-red-700">
+                        <option value="pix">PIX</option>
+                        <option value="boleto">Boleto bancário</option>
+                        <option value="transferencia">Transferência</option>
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="cheque">Cheque</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="pg-reg-parcial" onchange="pagamentos_toggleParcial()" class="w-4 h-4 text-red-700 rounded border-gray-300 focus:ring-red-700">
+                        <span class="text-sm text-gray-700 font-medium">Pagamento parcial (picado)</span>
+                    </label>
+                </div>
+                <div id="pg-campo-parcial" class="mb-4 hidden">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Valor pago agora (R$)</label>
+                    <input type="text" id="pg-reg-valor-parcial" placeholder="R$ 0,00" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-700/20 focus:border-red-700" oninput="pagamentos_mascaraMoeda(this)">
+                    <p class="text-xs text-amber-600 mt-1" id="pg-msg-saldo"></p>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="pagamentos_fecharRegistro()" class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors active:scale-95">Cancelar</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-red-700 hover:bg-red-800 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-md shadow-red-700/20">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+(function(){
+    const DADOS = [
+        {id:1,inquilino:'Carlos Mendes',imovel:'Rua Augusta, 120 — Apto 42',valor:3200,vencimento:'2025-06-10',status:'pendente',forma:'boleto',tipo:'aluguel'},
+        {id:2,inquilino:'Fernanda Lima',imovel:'Av. Paulista, 950 — Apto 18',valor:4500,vencimento:'2025-06-05',status:'recebido',pagoEm:'2025-06-04',forma:'pix',tipo:'aluguel'},
+        {id:3,inquilino:'Roberto Souza',imovel:'Rua Oscar Freire, 45',valor:5800,vencimento:'2025-05-15',status:'atrasado',pagoEm:null,forma:'transferencia',tipo:'aluguel',diasAtraso:22,juros:241.67},
+        {id:4,inquilino:'Ana Beatriz',imovel:'Rua Haddock Lobo, 78 — Apto 7',valor:2700,vencimento:'2025-06-15',status:'pendente',forma:'pix',tipo:'aluguel'},
+        {id:5,inquilino:'Patrícia Oliveira',imovel:'Alameda Lorena, 200',valor:3900,vencimento:'2025-05-28',status:'atrasado',pagoEm:null,forma:'boleto',tipo:'aluguel',diasAtraso:15,juros:195.00},
+        {id:6,inquilino:'João Pedro',imovel:'Rua Pamplona, 320 — Apto 15',valor:2100,vencimento:'2025-06-20',status:'pendente',forma:'pix',tipo:'aluguel'},
+        {id:7,inquilino:'Mariana Costa',imovel:'Av. Brigadeiro, 1100',valor:6800,vencimento:'2025-04-30',status:'atrasado',pagoEm:null,forma:'transferencia',tipo:'aluguel',diasAtraso:52,juros:618.67},
+        {id:8,inquilino:'Ricardo Almeida',imovel:'Rua Bela Cintra, 55',valor:3500,vencimento:'2025-06-08',status:'recebido',pagoEm:'2025-06-07',forma:'pix',tipo:'aluguel'},
+        {id:9,inquilino:'Carlos Mendes',imovel:'Rua Augusta, 120 — Apto 42',valor:3200,vencimento:'2025-05-10',status:'recebido',pagoEm:'2025-05-09',forma:'pix',tipo:'aluguel'},
+        {id:10,inquilino:'Fernanda Lima',imovel:'Av. Paulista, 950 — Apto 18',valor:4500,vencimento:'2025-05-05',status:'recebido',pagoEm:'2025-05-05',forma:'boleto',tipo:'aluguel'},
+    ];
+
+    let abaAtiva = 'pendentes';
+
+    window.pagamentos_iniciais = {};
+
+    function calcJuros(valor, dias) {
+        return valor * 0.02 * (dias / 30);
+    }
+
+    function inicialLetra(nome) {
+        return nome.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    }
+
+    function corAvatar(nome) {
+        const cores = ['bg-red-100 text-red-700','bg-gray-100 text-gray-700','bg-amber-100 text-amber-700','bg-blue-100 text-blue-700','bg-green-100 text-green-700','bg-purple-100 text-purple-700'];
+        let h = 0;
+        for(let i=0;i<nome.length;i++) h = (h + nome.charCodeAt(i)*7) % cores.length;
+        return cores[h];
+    }
+
+    function iconeStatus(status, diasAtraso) {
+        if(status==='recebido') return '<span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Recebido</span>';
+        if(status==='atrasado') return '<span class="inline-flex items-center gap-1 text-xs font-semibold text-red-700 bg-red-50 px-2 py-0.5 rounded-full"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01"/></svg>' + diasAtraso + 'd de atraso</span>';
+        return '<span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Pendente</span>';
+    }
+
+    function renderItem(p) {
+        const valorFormatado = p.valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+        const dataVenc = new Date(p.vencimento+'T00:00:00');
+        const dataVencFmt = dataVenc.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+        const isAtrasado = p.status === 'atrasado';
+        const classeBorda = isAtrasado ? 'border-l-red-500' : (p.status==='recebido' ? 'border-l-green-500' : 'border-l-amber-400');
+        const avatarClasse = corAvatar(p.inquilino);
+        const inicial = inicialLetra(p.inquilino);
+
+        let jurosHtml = '';
+        if(isAtrasado && p.juros) {
+            jurosHtml = '<div class="flex items-center gap-1 mt-1 text-xs text-red-600 font-medium"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>Juros: R$ ' + p.juros.toLocaleString('pt-BR',{minimumFractionDigits:2}) + '</div>';
+        }
+
+        let valorTotal = valorFormatado;
+        if(isAtrasado && p.juros) {
+            valorTotal = '<span class="text-sm font-bold text-red-700">' + valorFormatado + '</span><span class="text-xs text-red-500 ml-1">+ R$ ' + p.juros.toLocaleString('pt-BR',{minimumFractionDigits:2}) + '</span>';
+        } else if(p.status==='recebido') {
+            valorTotal = '<span class="text-sm font-bold text-green-700">' + valorFormatado + '</span>';
+        } else {
+            valorTotal = '<span class="text-sm font-bold text-gray-900">' + valorFormatado + '</span>';
+        }
+
+        return '<div onclick="pagamentos_detalhe('+p.id+')" class="bg-white rounded-xl p-3.5 shadow-sm border border-gray-100 border-l-4 '+classeBorda+' cursor-pointer hover:shadow-md hover:border-gray-200 transition-all duration-200 active:scale-[0.98]">'+
+            '<div class="flex items-start gap-3">'+
+                '<div class="w-10 h-10 rounded-full '+avatarClasse+' flex items-center justify-center text-sm font-bold shrink-0">'+inicial+'</div>'+
+                '<div class="flex-1 min-w-0">'+
+                    '<div class="flex items-center justify-between mb-0.5">'+
+                        '<h3 class="text-sm font-semibold text-gray-900 truncate">'+p.inquilino+'</h3>'+
+                        '<div class="shrink-0 ml-2">'+(isAtrasado?'<button onclick="event.stopPropagation(); pagamentos_whatsapp('+p.id+')" class="w-7 h-7 rounded-full bg-green-50 flex items-center justify-center hover:bg-green-100 transition-colors active:scale-90" title="Enviar lembrete WhatsApp"><svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>':'')+
+                    '</div>'+
+                    '</div>'+
+                    '<p class="text-xs text-gray-500 truncate mb-1">'+p.imovel+'</p>'+
+                    jurosHtml+
+                    '<div class="flex items-center justify-between mt-2">'+
+                        '<div>'+
+                            valorTotal+
+                        '</div>'+
+                        '<div class="text-right">'+
+                            iconeStatus(p.status, p.diasAtraso)+
+                            '<p class="text-xs text-gray-400 mt-0.5">Vence ' + dataVencFmt + '</p>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+        '</div>';
+    }
+
+    function renderListas() {
+        const mesSel = document.getElementById('pg-filtro-mes').value;
+        const inquilinoSel = document.getElementById('pg-filtro-inquilino').value;
+
+        let pendentes = DADOS.filter(d => d.status==='pendente');
+        let recebidos = DADOS.filter(d => d.status==='recebido');
+        let atrasados = DADOS.filter(d => d.status==='atrasado');
+
+        if(mesSel !== 'todos') {
+            pendentes = pendentes.filter(d => d.vencimento.startsWith(mesSel));
+            recebidos = recebidos.filter(d => d.vencimento.startsWith(mesSel));
+            atrasados = atrasados.filter(d => d.vencimento.startsWith(mesSel));
+        }
+        if(inquilinoSel !== 'todos') {
+            pendentes = pendentes.filter(d => d.inquilino === document.getElementById('pg-filtro-inquilino').selectedOptions[0].text.split('—')[0].trim());
+            recebidos = recebidos.filter(d => d.inquilino === document.getElementById('pg-filtro-inquilino').selectedOptions[0].text.split('—')[0].trim());
+            atrasados = atrasados.filter(d => d.inquilino === document.getElementById('pg-filtro-inquilino').selectedOptions[0].text.split('—')[0].trim());
+        }
+
+        const lp = document.getElementById('pg-lista-pendentes');
+        const lr = document.getElementById('pg-lista-recebidos');
+        const la = document.getElementById('pg-lista-atrasados');
+        const vz = document.getElementById('pg-estado-vazio');
+
+        if(pendentes.length) {
+            lp.innerHTML = pendentes.map(renderItem).join('');
+            lp.classList.remove('hidden');
+        } else { lp.innerHTML=''; lp.classList.add('hidden'); }
+
+        if(recebidos.length) {
+            lr.innerHTML = recebidos.map(renderItem).join('');
+            lr.classList.remove('hidden');
+        } else { lr.innerHTML=''; lr.classList.add('hidden'); }
+
+        if(atrasados.length) {
+            la.innerHTML = atrasados.map(renderItem).join('');
+            la.classList.remove('hidden');
+        } else { la.innerHTML=''; la.classList.add('hidden'); }
+
+        const total = pendentes.length + recebidos.length + atrasados.length;
+        if(total === 0) { vz.classList.remove('hidden'); } else { vz.classList.add('hidden'); }
+    }
+
+    window.pagamentos_aba = function(aba) {
+        abaAtiva = aba;
+        ['pendentes','recebidos','atrasados'].forEach(a => {
+            const tab = document.getElementById('pg-tab-'+a);
+            const list = document.getElementById('pg-lista-'+a);
+            if(a === aba) {
+                tab.classList.add('bg-white','text-gray-900','shadow-sm');
+                tab.classList.remove('text-gray-500');
+                list.classList.remove('hidden');
+            } else {
+                tab.classList.remove('bg-white','text-gray-900','shadow-sm');
+                tab.classList.add('text-gray-500');
+                list.classList.add('hidden');
+            }
+        });
+    };
+
+    window.pagamentos_aplicarFiltros = function() {
+        renderListas();
+    };
+
+    window.pagamentos_abrirRegistro = function() {
+        const modal = document.getElementById('pg-modal-registro');
+        const sheet = document.getElementById('pg-modal-sheet');
+        modal.classList.remove('hidden');
+        requestAnimationFrame(()=>{ sheet.classList.remove('translate-y-full'); sheet.classList.add('translate-y-0'); });
+    };
+
+    window.pagamentos_fecharRegistro = function() {
+        const modal = document.getElementById('pg-modal-registro');
+        const sheet = document.getElementById('pg-modal-sheet');
+        sheet.classList.add('translate-y-full');
+        sheet.classList.remove('translate-y-0');
+        setTimeout(()=>{ modal.classList.add('hidden'); }, 300);
+    };
+
+    window.pagamentos_toggleParcial = function() {
+        const cb = document.getElementById('pg-reg-parcial');
+        const div = document.getElementById('pg-campo-parcial');
+        if(cb.checked) { div.classList.remove('hidden'); } else { div.classList.add('hidden'); }
+    };
+
+    window.pagamentos_mascaraMoeda = function(el) {
+        let v = el.value.replace(/\D/g,'');
+        v = (parseInt(v||'0')/100).toFixed(2);
+        v = v.replace('.',',');
+        v = v.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+        el.value = 'R$ ' + v;
+    };
+
+    window.pagamentos_salvarPagamento = function(e) {
+        e.preventDefault();
+        const inquilinoSel = document.getElementById('pg-reg-inquilino');
+        const nomeInquilino = inquilinoSel.options[inquilinoSel.selectedIndex].text.split('—')[0].trim();
+        const vencimento = document.getElementById('pg-reg-vencimento').value;
+        const valorStr = document.getElementById('pg-reg-valor').value.replace(/[R$\s.]/g,'').replace(',','.');
+        const valor = parseFloat(valorStr);
+        const parcial = document.getElementById('pg-reg-parcial').checked;
+
+        const novo = {
+            id: DADOS.length + 1 + Math.floor(Math.random()*1000),
+            inquilino: nomeInquilino,
+            imovel: inquilinoSel.options[inquilinoSel.selectedIndex].text.split('—')[1]?.trim() || '—',
+            valor: valor,
+            vencimento: vencimento,
+            status: parcial ? 'pendente' : 'recebido',
+            pagoEm: parcial ? null : vencimento,
+            forma: document.getElementById('pg-reg-forma').value,
+            tipo: 'aluguel',
+            diasAtraso: 0,
+            juros: 0
+        };
+
+        DADOS.unshift(novo);
+        pagamentos_fecharRegistro();
+        renderListas();
+        pagamentos_atualizarCards();
+        if(parcial) {
+            toast('Pagamento parcial registrado. Saldo restante permanece pendente.','info');
+        } else {
+            toast('Pagamento registrado com sucesso!','ok');
+        }
+        e.target.reset();
+        document.getElementById('pg-campo-parcial').classList.add('hidden');
+    };
+
+    window.pagamentos_detalhe = function(id) {
+        const p = DADOS.find(d=>d.id===id);
+        if(!p) return;
+        const valorFmt = p.valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+        const vencFmt = new Date(p.vencimento+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+        const pagoFmt = p.pagoEm ? new Date(p.pagoEm+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}) : '—';
+        const avatarClasse = corAvatar(p.inquilino);
+        const inicial = inicialLetra(p.inquilino);
+
+        let corpo = '<div class="text-center mb-5">'+
+            '<div class="w-14 h-14 rounded-full '+avatarClasse+' flex items-center justify-center text-xl font-bold mx-auto mb-2">'+inicial+'</div>'+
+            '<h3 class="font-display font-bold text-gray-900 text-lg">'+p.inquilino+'</h3>'+
+            '<p class="text-sm text-gray-500">'+p.imovel+'</p>'+
+        '</div>'+
+        '<div class="space-y-3">'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-sm text-gray-500">Valor do aluguel</span><span class="text-sm font-semibold text-gray-900">'+valorFmt+'</span></div>'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-sm text-gray-500">Data de vencimento</span><span class="text-sm font-semibold text-gray-900">'+vencFmt+'</span></div>'+
+            '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-sm text-gray-500">Status</span>'+iconeStatus(p.status, p.diasAtraso)+'</div>';
+
+        if(p.status === 'recebido') {
+            corpo += '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-sm text-gray-500">Data de pagamento</span><span class="text-sm font-semibold text-green-700">'+pagoFmt+'</span></div>'+
+                '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-sm text-gray-500">Forma de pagamento</span><span class="text-sm font-semibold text-gray-900">'+p.forma.charAt(0).toUpperCase()+p.forma.slice(1)+'</span></div>';
+        }
+        if(p.status === 'atrasado' && p.juros) {
+            corpo += '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-sm text-gray-500">Dias de atraso</span><span class="text-sm font-semibold text-red-600">'+p.diasAtraso+' dias</span></div>'+
+                '<div class="flex justify-between py-2 border-b border-gray-100"><span class="text-sm text-gray-500">Juros (2% a.m.)</span><span class="text-sm font-semibold text-red-600">R$ '+p.juros.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</span></div>'+
+                '<div class="flex justify-between py-2"><span class="text-sm font-semibold text-gray-900">Valor total</span><span class="text-base font-bold text-red-700">R$ '+(p.valor+p.juros).toLocaleString('pt-BR',{minimumFractionDigits:2})+'</span></div>';
+        }
+
+        corpo += '</div>';
+
+        const botoes = [];
+        if(p.status !== 'recebido') {
+            botoes.push('<button onclick="pagamentos_registrarDoDetalhe('+p.id+'); fecharModal();" class="flex-1 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold py-3 rounded-xl transition-all active:scale-95 shadow-md shadow-red-700/20">Registrar Pagamento</button>');
+        }
+        botoes.push('<button onclick="pagamentos_whatsapp('+p.id+'); fecharModal();" class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-3 rounded-xl transition-all active:scale-95 shadow-md shadow-green-600/20 flex items-center justify-center gap-1.5"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</button>');
+
+        abrirModal(corpo + '<div class="flex gap-3 mt-5">' + botoes.join('') + '</div>', 'Detalhe do Pagamento');
+    };
+
+    window.pagamentos_registrarDoDetalhe = function(id) {
+        const p = DADOS.find(d=>d.id===id);
+        if(p) {
+            document.getElementById('pg-reg-inquilino').value = id;
+            document.getElementById('pg-reg-valor').value = 'R$ ' + p.valor.toLocaleString('pt-BR',{minimumFractionDigits:2}).replace('.',',');
+            document.getElementById('pg-reg-vencimento').value = p.vencimento;
+            document.getElementById('pg-reg-forma').value = p.forma || 'pix';
+            pagamentos_abrirRegistro();
+        }
+    };
+
+    window.pagamentos_whatsapp = function(id) {
+        const p = DADOS.find(d=>d.id===id);
+        if(!p) return;
+        const valorFmt = p.valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+        const vencFmt = new Date(p.vencimento+'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});
+        const msg = encodeURIComponent('Olá, ' + p.inquilino.split(' ')[0] + '! Lembramos que o aluguel de ' + valorFmt + ' do imóvel localizado em ' + p.imovel.split('—')[0].trim() + ' vence em ' + vencFmt + '. Qualquer dúvida, estamos à disposição.');
+        window.open('https://wa.me/?text=' + msg, '_blank');
+        toast('Lembrete preparado para envio via WhatsApp','ok');
+    };
+
+    window.pagamentos_atualizarCards = function() {
+        const pendentes = DADOS.filter(d=>d.status==='pendente');
+        const recebidos = DADOS.filter(d=>d.status==='recebido');
+        const atrasados = DADOS.filter(d=>d.status==='atrasado');
+        const totalPend = pendentes.reduce((a,b)=>a+b.valor,0);
+        const totalRec = recebidos.reduce((a,b)=>a+b.valor,0);
+        const totalAtr = atrasados.reduce((a,b)=>a+b.valor,0);
+        const totalJuros = atrasados.reduce((a,b)=>a+(b.juros||0),0);
+
+        document.getElementById('pg-valor-pendentes').textContent = totalPend.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+        document.getElementById('pg-count-pendentes').textContent = pendentes.length;
+        document.getElementById('pg-valor-recebidos').textContent = totalRec.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+        document.getElementById('pg-valor-atrasados').textContent = totalAtr.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+        document.getElementById('pg-count-atrasados').textContent = atrasados.length;
+        document.getElementById('pg-valor-juros').textContent = totalJuros.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+    };
+
+    pagamentos_atualizarCards();
+    renderListas();
+})();
+</script>
+
     <!-- TELAS -->
       </main>
 
