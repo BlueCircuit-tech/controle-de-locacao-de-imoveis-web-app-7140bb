@@ -2713,6 +2713,611 @@ document.addEventListener('DOMContentLoaded', function() {
   </script>
 </section>
 
+    <section data-tela="administracao" class="hidden">
+      <div class="px-5 py-4 pb-24 space-y-5">
+        <!-- Cabeçalho -->
+        <div class="flex items-start justify-between">
+          <div>
+            <h1 class="font-display text-2xl font-bold text-neutral-900">Administração</h1>
+            <p class="text-sm text-neutral-500 mt-0.5">Visão consolidada e configurações do sistema</p>
+          </div>
+          <button onclick="toast('Relatório exportado com sucesso', 'ok')" class="p-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 active:scale-95 transition-all">
+            <svg class="w-5 h-5 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </button>
+        </div>
+
+        <!-- Indicadores -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="administracao_mostrarDetalhe('imoveis')">
+            <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center mb-3">
+              <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <p class="text-xs text-neutral-500 font-medium uppercase tracking-wide">Imóveis</p>
+            <p class="font-display text-2xl font-bold text-neutral-900 mt-0.5">47</p>
+            <p class="text-xs text-green-600 font-medium mt-1">+3 este mês</p>
+          </div>
+          <div class="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="administracao_mostrarDetalhe('ocupacao')">
+            <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+              <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <p class="text-xs text-neutral-500 font-medium uppercase tracking-wide">Taxa Ocupação</p>
+            <p class="font-display text-2xl font-bold text-neutral-900 mt-0.5">87%</p>
+            <p class="text-xs text-green-600 font-medium mt-1">+2% vs mês anterior</p>
+          </div>
+          <div class="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="administracao_mostrarDetalhe('receita')">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <p class="text-xs text-neutral-500 font-medium uppercase tracking-wide">Receita Total</p>
+            <p class="font-display text-2xl font-bold text-neutral-900 mt-0.5">R$ 142.350</p>
+            <p class="text-xs text-green-600 font-medium mt-1">+8% vs mês anterior</p>
+          </div>
+          <div class="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="administracao_mostrarDetalhe('inadimplencia')">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
+              <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+            </div>
+            <p class="text-xs text-neutral-500 font-medium uppercase tracking-wide">Inadimplência</p>
+            <p class="font-display text-2xl font-bold text-neutral-900 mt-0.5">4.2%</p>
+            <p class="text-xs text-red-600 font-medium mt-1">6 contratos atrasados</p>
+          </div>
+        </div>
+
+        <!-- Repasses Pendentes -->
+        <div class="bg-neutral-900 rounded-2xl p-5 text-white relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/4"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs text-neutral-400 font-medium uppercase tracking-wide">Repasses Pendentes</p>
+                <p class="font-display text-3xl font-bold mt-1">R$ 38.420</p>
+                <p class="text-sm text-neutral-400 mt-1">12 proprietários aguardando</p>
+              </div>
+              <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              </div>
+            </div>
+            <button onclick="mostrarTela('pagamentos'); toast('Navegue para Pagamentos para processar repasses', 'info')" class="mt-4 w-full bg-white text-neutral-900 font-semibold text-sm py-3 rounded-xl active:scale-95 transition-all hover:bg-neutral-100">
+              Processar Repasses
+            </button>
+          </div>
+        </div>
+
+        <!-- Gráfico Receita vs Despesas -->
+        <div class="bg-white rounded-2xl p-5 border border-neutral-100 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-display font-bold text-neutral-900">Receita vs Despesas</h3>
+              <p class="text-xs text-neutral-500">Últimos 6 meses</p>
+            </div>
+            <div class="flex items-center gap-4 text-xs">
+              <div class="flex items-center gap-1.5">
+                <div class="w-3 h-3 rounded-sm bg-red-600"></div>
+                <span class="text-neutral-600">Receita</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <div class="w-3 h-3 rounded-sm bg-neutral-300"></div>
+                <span class="text-neutral-600">Despesas</span>
+              </div>
+            </div>
+          </div>
+          <svg id="graficoReceita" viewBox="0 0 320 160" class="w-full h-40">
+            <!-- Grid -->
+            <line x1="0" y1="40" x2="320" y2="40" stroke="#f0f0f0" stroke-width="1"/>
+            <line x1="0" y1="80" x2="320" y2="80" stroke="#f0f0f0" stroke-width="1"/>
+            <line x1="0" y1="120" x2="320" y2="120" stroke="#f0f0f0" stroke-width="1"/>
+            <!-- Despesas (barras cinza) -->
+            <rect x="18" y="60" width="24" height="100" rx="3" fill="#e5e5e5" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('jan','despesa')"/>
+            <rect x="72" y="55" width="24" height="105" rx="3" fill="#e5e5e5" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('fev','despesa')"/>
+            <rect x="126" y="50" width="24" height="110" rx="3" fill="#e5e5e5" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('mar','despesa')"/>
+            <rect x="180" y="45" width="24" height="115" rx="3" fill="#e5e5e5" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('abr','despesa')"/>
+            <rect x="234" y="40" width="24" height="120" rx="3" fill="#e5e5e5" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('mai','despesa')"/>
+            <rect x="288" y="35" width="24" height="125" rx="3" fill="#e5e5e5" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('jun','despesa')"/>
+            <!-- Receita (barras vermelhas) -->
+            <rect x="42" y="25" width="24" height="135" rx="3" fill="#dc2626" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('jan','receita')"/>
+            <rect x="96" y="18" width="24" height="142" rx="3" fill="#dc2626" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('fev','receita')"/>
+            <rect x="150" y="12" width="24" height="148" rx="3" fill="#dc2626" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('mar','receita')"/>
+            <rect x="204" y="8" width="24" height="152" rx="3" fill="#dc2626" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('abr','receita')"/>
+            <rect x="258" y="5" width="24" height="155" rx="3" fill="#dc2626" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('mai','receita')"/>
+            <rect x="0" y="0" width="24" height="160" rx="3" fill="#dc2626" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('jun','receita')" style="transform: translateX(312px)"/>
+            <rect x="312" y="2" width="24" height="158" rx="3" fill="#dc2626" class="hover:opacity-80 transition-opacity cursor-pointer" onclick="administracao_mostrarMes('jun','receita')"/>
+            <!-- Labels -->
+            <text x="30" y="155" text-anchor="middle" class="text-[9px] fill-neutral-400">Jan</text>
+            <text x="84" y="155" text-anchor="middle" class="text-[9px] fill-neutral-400">Fev</text>
+            <text x="138" y="155" text-anchor="middle" class="text-[9px] fill-neutral-400">Mar</text>
+            <text x="192" y="155" text-anchor="middle" class="text-[9px] fill-neutral-400">Abr</text>
+            <text x="246" y="155" text-anchor="middle" class="text-[9px] fill-neutral-400">Mai</text>
+            <text x="300" y="155" text-anchor="middle" class="text-[9px] fill-neutral-400">Jun</text>
+          </svg>
+          <div class="flex justify-between text-[10px] text-neutral-400 mt-1 px-1">
+            <span>Jan/25</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span>
+          </div>
+        </div>
+
+        <!-- Usuários Cadastrados -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-display font-bold text-neutral-900 text-lg">Usuários Cadastrados</h3>
+            <button onclick="administracao_abrirNovoUsuario()" class="text-sm font-semibold text-red-600 hover:text-red-700 active:scale-95 transition-all flex items-center gap-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              Novo
+            </button>
+          </div>
+          <div id="listaUsuarios" class="space-y-2.5">
+            <!-- Item 1 -->
+            <div onclick="administracao_abrirDetalheUsuario(1)" class="bg-white rounded-xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-[0.98]">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                  <span class="font-display font-bold text-sm text-red-700">MC</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-sm text-neutral-900 truncate">Marina Costa</p>
+                  <p class="text-xs text-neutral-500 truncate">marina@imobiliaria.com.br</p>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span class="badge bg-red-50 text-red-700 text-xs">Admin</span>
+                  <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Item 2 -->
+            <div onclick="administracao_abrirDetalheUsuario(2)" class="bg-white rounded-xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-[0.98]">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <span class="font-display font-bold text-sm text-blue-700">RS</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-sm text-neutral-900 truncate">Rafael Santos</p>
+                  <p class="text-xs text-neutral-500 truncate">rafael@imobiliaria.com.br</p>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span class="badge bg-blue-50 text-blue-700 text-xs">Gestor</span>
+                  <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Item 3 -->
+            <div onclick="administracao_abrirDetalheUsuario(3)" class="bg-white rounded-xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-[0.98]">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                  <span class="font-display font-bold text-sm text-green-700">JL</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-sm text-neutral-900 truncate">Juliana Lima</p>
+                  <p class="text-xs text-neutral-500 truncate">juliana@imobiliaria.com.br</p>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span class="badge bg-green-50 text-green-700 text-xs">Operador</span>
+                  <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Item 4 -->
+            <div onclick="administracao_abrirDetalheUsuario(4)" class="bg-white rounded-xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-[0.98]">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                  <span class="font-display font-bold text-sm text-purple-700">FO</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-sm text-neutral-900 truncate">Fernando Oliveira</p>
+                  <p class="text-xs text-neutral-500 truncate">fernando@imobiliaria.com.br</p>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span class="badge bg-green-50 text-green-700 text-xs">Ativo</span>
+                  <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Item 5 -->
+            <div onclick="administracao_abrirDetalheUsuario(5)" class="bg-white rounded-xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-[0.98]">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                  <span class="font-display font-bold text-sm text-amber-700">AP</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-sm text-neutral-900 truncate">Ana Paula</p>
+                  <p class="text-xs text-neutral-500 truncate">ana@imobiliaria.com.br</p>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span class="badge bg-blue-50 text-blue-700 text-xs">Gestor</span>
+                  <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configurações -->
+        <div>
+          <h3 class="font-display font-bold text-neutral-900 text-lg mb-3">Configurações</h3>
+          <div class="bg-white rounded-2xl border border-neutral-100 shadow-sm divide-y divide-neutral-100">
+            <button onclick="administracao_abrirDadosImobiliaria()" class="w-full flex items-center justify-between p-4 hover:bg-neutral-50 active:bg-neutral-100 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                </div>
+                <div class="text-left">
+                  <p class="font-semibold text-sm text-neutral-900">Dados da Imobiliária</p>
+                  <p class="text-xs text-neutral-500">Nome, CNPJ, endereço e contato</p>
+                </div>
+              </div>
+              <svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <button onclick="administracao_abrirTaxaAdmin()" class="w-full flex items-center justify-between p-4 hover:bg-neutral-50 active:bg-neutral-100 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                </div>
+                <div class="text-left">
+                  <p class="font-semibold text-sm text-neutral-900">Taxa de Administração</p>
+                  <p class="text-xs text-neutral-500">Taxa padrão aplicada aos contratos</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="badgeTaxaAtual" class="badge bg-red-50 text-red-700 text-xs">8%</span>
+                <svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </div>
+            </button>
+            <button onclick="administracao_abrirDiasVencimento()" class="w-full flex items-center justify-between p-4 hover:bg-neutral-50 active:bg-neutral-100 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </div>
+                <div class="text-left">
+                  <p class="font-semibold text-sm text-neutral-900">Dias de Vencimento</p>
+                  <p class="text-xs text-neutral-500">Dia padrão de vencimento dos aluguéis</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="badgeDiaVencimento" class="badge bg-neutral-100 text-neutral-700 text-xs">Dia 10</span>
+                <svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </div>
+            </button>
+            <button onclick="administracao_abrirWhatsapp()" class="w-full flex items-center justify-between p-4 hover:bg-neutral-50 active:bg-neutral-100 transition-colors">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
+                <div class="text-left">
+                  <p class="font-semibold text-sm text-neutral-900">Integração WhatsApp</p>
+                  <p class="text-xs text-neutral-500">Notificações e cobranças automáticas</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="badgeWhatsapp" class="badge bg-green-50 text-green-700 text-xs">Ativo</span>
+                <svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Ações Rápidas -->
+        <div>
+          <h3 class="font-display font-bold text-neutral-900 text-lg mb-3">Ações Rápidas</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="administracao_abrirCadastroUsuario()" class="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md active:scale-95 transition-all text-left">
+              <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+              </div>
+              <p class="font-semibold text-sm text-neutral-900">Gerenciar Usuários</p>
+              <p class="text-xs text-neutral-500 mt-0.5">Adicionar, editar ou remover</p>
+            </button>
+            <button onclick="administracao_abrirAlterarTaxa()" class="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md active:scale-95 transition-all text-left">
+              <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              </div>
+              <p class="font-semibold text-sm text-neutral-900">Alterar Taxa</p>
+              <p class="text-xs text-neutral-500 mt-0.5">Taxa padrão de administração</p>
+            </button>
+            <button onclick="administracao_abrirConfigVencimento()" class="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md active:scale-95 transition-all text-left">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <p class="font-semibold text-sm text-neutral-900">Config. Vencimento</p>
+              <p class="text-xs text-neutral-500 mt-0.5">Dia e regras de cobrança</p>
+            </button>
+            <button onclick="administracao_abrirIntegracoes()" class="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md active:scale-95 transition-all text-left">
+              <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center mb-3">
+                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <p class="font-semibold text-sm text-neutral-900">Integrações</p>
+              <p class="text-xs text-neutral-500 mt-0.5">APIs e conectores externos</p>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Nova Taxa -->
+      <div id="modalTaxa" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="fecharModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 pb-8 transform transition-transform duration-300 translate-y-0">
+          <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto mb-5"></div>
+          <h3 class="font-display font-bold text-xl text-neutral-900 mb-1">Alterar Taxa de Administração</h3>
+          <p class="text-sm text-neutral-500 mb-5">Esta taxa será aplicada como padrão nos novos contratos.</p>
+          <div class="mb-5">
+            <label class="block text-sm font-medium text-neutral-700 mb-1.5">Taxa (%)</label>
+            <input id="inputTaxa" type="text" value="8" oninput="administracao_mascaraPorcentagem(this)" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-lg font-semibold text-neutral-900 transition-all"/>
+          </div>
+          <div class="flex gap-3">
+            <button onclick="fecharModal()" class="flex-1 py-3.5 rounded-xl border border-neutral-200 text-neutral-700 font-semibold text-sm active:scale-95 transition-all hover:bg-neutral-50">Cancelar</button>
+            <button onclick="administracao_salvarTaxa()" class="flex-1 py-3.5 rounded-xl bg-red-600 text-white font-semibold text-sm active:scale-95 transition-all hover:bg-red-700">Salvar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Dia Vencimento -->
+      <div id="modalVencimento" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="fecharModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 pb-8">
+          <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto mb-5"></div>
+          <h3 class="font-display font-bold text-xl text-neutral-900 mb-1">Dia de Vencimento Padrão</h3>
+          <p class="text-sm text-neutral-500 mb-5">Selecione o dia do mês para vencimento dos aluguéis.</p>
+          <div class="mb-5">
+            <label class="block text-sm font-medium text-neutral-700 mb-2">Dia do mês</label>
+            <div class="grid grid-cols-5 gap-2" id="gridDiasVencimento"></div>
+          </div>
+          <div class="flex gap-3">
+            <button onclick="fecharModal()" class="flex-1 py-3.5 rounded-xl border border-neutral-200 text-neutral-700 font-semibold text-sm active:scale-95 transition-all hover:bg-neutral-50">Cancelar</button>
+            <button onclick="administracao_salvarDiaVencimento()" class="flex-1 py-3.5 rounded-xl bg-red-600 text-white font-semibold text-sm active:scale-95 transition-all hover:bg-red-700">Salvar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Usuário -->
+      <div id="modalUsuario" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="fecharModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 pb-8 max-h-[85vh] overflow-y-auto">
+          <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto mb-5"></div>
+          <div id="conteudoModalUsuario"></div>
+          <div class="flex gap-3 mt-5">
+            <button onclick="fecharModal()" class="flex-1 py-3.5 rounded-xl border border-neutral-200 text-neutral-700 font-semibold text-sm active:scale-95 transition-all hover:bg-neutral-50">Fechar</button>
+            <button onclick="administracao_editarUsuario()" class="flex-1 py-3.5 rounded-xl bg-red-600 text-white font-semibold text-sm active:scale-95 transition-all hover:bg-red-700">Editar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Dados Imobiliária -->
+      <div id="modalImobiliaria" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="fecharModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 pb-8 max-h-[85vh] overflow-y-auto">
+          <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto mb-5"></div>
+          <h3 class="font-display font-bold text-xl text-neutral-900 mb-4">Dados da Imobiliária</h3>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Razão Social</label>
+              <input type="text" value="Primeiro Imóveis Ltda" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">CNPJ</label>
+              <input type="text" value="12.345.678/0001-90" oninput="administracao_mascaraCNPJ(this)" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Endereço</label>
+              <input type="text" value="Av. Paulista, 1500, São Paulo - SP" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-sm font-medium text-neutral-700 mb-1">Telefone</label>
+                <input type="text" value="(11) 3456-7890" oninput="administracao_mascaraTelefone(this)" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-neutral-700 mb-1">Email</label>
+                <input type="text" value="contato@primeiroimoveis.com.br" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Responsável</label>
+              <input type="text" value="Carlos Eduardo Mendes" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+            </div>
+          </div>
+          <div class="flex gap-3 mt-5">
+            <button onclick="fecharModal()" class="flex-1 py-3.5 rounded-xl border border-neutral-200 text-neutral-700 font-semibold text-sm active:scale-95 transition-all hover:bg-neutral-50">Cancelar</button>
+            <button onclick="administracao_salvarImobiliaria()" class="flex-1 py-3.5 rounded-xl bg-red-600 text-white font-semibold text-sm active:scale-95 transition-all hover:bg-red-700">Salvar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Novo Usuário -->
+      <div id="modalNovoUsuario" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="fecharModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 pb-8 max-h-[85vh] overflow-y-auto">
+          <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto mb-5"></div>
+          <h3 class="font-display font-bold text-xl text-neutral-900 mb-4">Novo Usuário</h3>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Nome completo</label>
+              <input id="novoUsuarioNome" type="text" placeholder="Digite o nome" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Email</label>
+              <input id="novoUsuarioEmail" type="email" placeholder="email@imobiliaria.com.br" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Telefone</label>
+              <input id="novoUsuarioTelefone" type="text" placeholder="(11) 99999-9999" oninput="administracao_mascaraTelefone(this)" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Perfil</label>
+              <select id="novoUsuarioPerfil" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm bg-white">
+                <option value="operador">Operador</option>
+                <option value="gestor">Gestor</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Senha temporária</label>
+              <input id="novoUsuarioSenha" type="text" placeholder="Digite uma senha" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none text-sm"/>
+            </div>
+          </div>
+          <div class="flex gap-3 mt-5">
+            <button onclick="fecharModal()" class="flex-1 py-3.5 rounded-xl border border-neutral-200 text-neutral-700 font-semibold text-sm active:scale-95 transition-all hover:bg-neutral-50">Cancelar</button>
+            <button onclick="administracao_criarUsuario()" class="flex-1 py-3.5 rounded-xl bg-red-600 text-white font-semibold text-sm active:scale-95 transition-all hover:bg-red-700">Criar Usuário</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+    function administracao_mostrarDetalhe(tipo) {
+      const dados = {
+        imoveis: { titulo: 'Imóveis na Carteira', texto: '47 imóveis cadastrados\n35 ativos (locados)\n12 disponíveis\n3 em manutenção' },
+        ocupacao: { titulo: 'Taxa de Ocupação', texto: '87% de ocupação atual\n35 de 40 unidades locadas\nMeta: 90%\nTendência: ↗ +2% este mês' },
+        receita: { titulo: 'Receita Total', texto: 'R$ 142.350,00 este mês\nR$ 131.700,00 mês anterior\nVariação: +8,1%\nProjeção próximo mês: R$ 148.000' },
+        inadimplencia: { titulo: 'Inadimplência', texto: '4,2% de inadimplência\n6 contratos em atraso\nMaior atraso: 32 dias\nValor em risco: R$ 6.120' }
+      };
+      const d = dados[tipo] || dados.imoveis;
+      abrirModal('<div class="space-y-2">' + d.texto.split('\n').map(l => '<p class="text-sm text-neutral-700 py-1 border-b border-neutral-100 last:border-0">' + l + '</p>').join('') + '</div>', d.titulo);
+    }
+
+    function administracao_mostrarMes(mes, tipo) {
+      const valores = {
+        jan: { receita: 'R$ 118.400', despesa: 'R$ 32.100' },
+        fev: { receita: 'R$ 125.600', despesa: 'R$ 28.900' },
+        mar: { receita: 'R$ 132.800', despesa: 'R$ 31.500' },
+        abr: { receita: 'R$ 138.200', despesa: 'R$ 29.800' },
+        mai: { receita: 'R$ 140.500', despesa: 'R$ 33.200' },
+        jun: { receita: 'R$ 142.350', despesa: 'R$ 30.100' }
+      };
+      const v = valores[mes] || valores.jun;
+      abrirModal('<div class="space-y-3"><div class="bg-red-50 rounded-xl p-3"><p class="text-xs text-red-600 font-medium uppercase">Receita</p><p class="font-display font-bold text-lg text-red-700">' + v.receita + '</p></div><div class="bg-neutral-100 rounded-xl p-3"><p class="text-xs text-neutral-500 font-medium uppercase">Despesas</p><p class="font-display font-bold text-lg text-neutral-700">' + v.despesa + '</p></div><p class="text-xs text-neutral-400 text-center mt-2">' + mes.charAt(0).toUpperCase() + mes.slice(1) + '/2025</p></div>', 'Detalhes ' + mes.charAt(0).toUpperCase() + mes.slice(1));
+    }
+
+    function administracao_abrirTaxaAdmin() {
+      document.getElementById('modalTaxa').classList.remove('hidden');
+    }
+
+    function administracao_mascaraPorcentagem(input) {
+      let v = input.value.replace(/[^0-9]/g, '');
+      if (v.length > 2) v = v.slice(0, 2);
+      input.value = v;
+    }
+
+    function administracao_salvarTaxa() {
+      const taxa = document.getElementById('inputTaxa').value;
+      if (!taxa || parseInt(taxa) < 0 || parseInt(taxa) > 100) {
+        toast('Informe uma taxa válida (0 a 100)', 'erro');
+        return;
+      }
+      document.getElementById('badgeTaxaAtual').textContent = taxa + '%';
+      fecharModal();
+      toast('Taxa de administração alterada para ' + taxa + '%', 'ok');
+    }
+
+    function administracao_abrirDiasVencimento() {
+      const grid = document.getElementById('gridDiasVencimento');
+      grid.innerHTML = '';
+      const diaAtual = 10;
+      for (let i = 1; i <= 31; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.dataset.dia = i;
+        btn.className = 'py-2.5 rounded-xl text-sm font-medium transition-all border ' + (i === diaAtual ? 'bg-red-600 text-white border-red-600' : 'bg-white text-neutral-700 border-neutral-200 hover:border-red-300 active:scale-95');
+        btn.onclick = function() {
+          grid.querySelectorAll('button').forEach(b => { b.className = 'py-2.5 rounded-xl text-sm font-medium transition-all border bg-white text-neutral-700 border-neutral-200 hover:border-red-300 active:scale-95'; });
+          this.className = 'py-2.5 rounded-xl text-sm font-medium transition-all border bg-red-600 text-white border-red-600';
+        };
+        grid.appendChild(btn);
+      }
+      document.getElementById('modalVencimento').classList.remove('hidden');
+    }
+
+    function administracao_salvarDiaVencimento() {
+      const selecionado = document.querySelector('#gridDiasVencimento button.bg-red-600');
+      if (!selecionado) {
+        toast('Selecione um dia de vencimento', 'erro');
+        return;
+      }
+      const dia = selecionado.dataset.dia;
+      document.getElementById('badgeDiaVencimento').textContent = 'Dia ' + dia;
+      fecharModal();
+      toast('Dia de vencimento alterado para dia ' + dia, 'ok');
+    }
+
+    function administracao_abrirConfigVencimento() {
+      administracao_abrirDiasVencimento();
+    }
+
+    function administracao_abrirWhatsapp() {
+      abrirModal('<div class="space-y-3"><div class="flex items-center gap-3 p-3 bg-green-50 rounded-xl"><div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center"><svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div><div><p class="font-semibold text-sm text-green-800">WhatsApp Business API</p><p class="text-xs text-green-600">Conectado</p></div></div><p class="text-sm text-neutral-600">Número conectado: <strong>(11) 98765-4321</strong></p><p class="text-xs text-neutral-500">Cobranças automáticas enviadas na véspera do vencimento. Lembretes em caso de atraso de 3, 7 e 15 dias.</p><div class="mt-3 p-3 bg-neutral-50 rounded-xl"><p class="text-xs font-medium text-neutral-700">Mensagens enviadas este mês:</p><p class="font-display font-bold text-lg text-neutral-900">1.247</p></div></div>', 'Integração WhatsApp');
+    }
+
+    function administracao_abrirDadosImobiliaria() {
+      document.getElementById('modalImobiliaria').classList.remove('hidden');
+    }
+
+    function administracao_salvarImobiliaria() {
+      fecharModal();
+      toast('Dados da imobiliária atualizados', 'ok');
+    }
+
+    function administracao_abrirAlterarTaxa() {
+      administracao_abrirTaxaAdmin();
+    }
+
+    function administracao_abrirCadastroUsuario() {
+      administracao_abrirNovoUsuario();
+    }
+
+    function administracao_abrirNovoUsuario() {
+      document.getElementById('modalNovoUsuario').classList.remove('hidden');
+    }
+
+    function administracao_criarUsuario() {
+      const nome = document.getElementById('novoUsuarioNome').value.trim();
+      const email = document.getElementById('novoUsuarioEmail').value.trim();
+      if (!nome || !email) {
+        toast('Preencha nome e email', 'erro');
+        return;
+      }
+      document.getElementById('novoUsuarioNome').value = '';
+      document.getElementById('novoUsuarioEmail').value = '';
+      document.getElementById('novoUsuarioTelefone').value = '';
+      document.getElementById('novoUsuarioSenha').value = '';
+      fecharModal();
+      toast('Usuário criado com sucesso', 'ok');
+    }
+
+    function administracao_abrirIntegracoes() {
+      abrirModal('<div class="space-y-3"><div class="flex items-center justify-between p-3 bg-neutral-50 rounded-xl"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center"><svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg></div><span class="text-sm font-medium text-neutral-700">WhatsApp Business</span></div><span class="badge bg-green-50 text-green-700 text-xs">Conectado</span></div><div class="flex items-center justify-between p-3 bg-neutral-50 rounded-xl"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div><span class="text-sm font-medium text-neutral-700">Email (SMTP)</span></div><span class="badge bg-green-50 text-green-700 text-xs">Conectado</span></div><div class="flex items-center justify-between p-3 bg-neutral-50 rounded-xl"><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center"><svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></div><span class="text-sm font-medium text-neutral-700">Webhook / API</span></div><span class="badge bg-neutral-100 text-neutral-500 text-xs">Disponível</span></div></div>', 'Integrações Disponíveis');
+    }
+
+    const usuariosData = {
+      1: { nome: 'Marina Costa', email: 'marina@imobiliaria.com.br', perfil: 'Admin', cor: 'bg-red-100', textoCor: 'text-red-700', iniciais: 'MC', telefone: '(11) 99876-5432', ultimoAcesso: 'Hoje, 09:15', permissoes: 'Acesso total ao sistema', status: 'Ativo' },
+      2: { nome: 'Rafael Santos', email: 'rafael@imobiliaria.com.br', perfil: 'Gestor', cor: 'bg-blue-100', textoCor: 'text-blue-700', iniciais: 'RS', telefone: '(11) 98765-4321', ultimoAcesso: 'Ontem, 17:42', permissoes: 'Gestão de contratos, clientes e relatórios', status: 'Ativo' },
+      3: { nome: 'Juliana Lima', email: 'juliana@imobiliaria.com.br', perfil: 'Operador', cor: 'bg-green-100', textoCor: 'text-green-700', iniciais: 'JL', telefone: '(11) 97654-3210', ultimoAcesso: 'Hoje, 08:30', permissoes: 'Cadastro de imóveis e clientes, lançamento de pagamentos', status: 'Ativo' },
+      4: { nome: 'Fernando Oliveira', email: 'fernando@imobiliaria.com.br', perfil: 'Operador', cor: 'bg-amber-100', textoCor: 'text-amber-700', iniciais: 'FO', telefone: '(11) 96543-2109', ultimoAcesso: '15/06/2025, 14:20', permissoes: 'Cadastro de imóveis e clientes', status: 'Ativo' },
+      5: { nome: 'Ana Paula', email: 'ana@imobiliaria.com.br', perfil: 'Gestor', cor: 'bg-purple-100', textoCor: 'text-purple-700', iniciais: 'AP', telefone: '(11) 95432-1098', ultimoAcesso: 'Hoje, 10:05', permissoes: 'Gestão de contratos, relatórios financeiros', status: 'Ativo' }
+    };
+
+    function administracao_abrirDetalheUsuario(id) {
+      const u = usuariosData[id] || usuariosData[1];
+      const html = '<div class="space-y-4"><div class="flex items-center gap-4"><div class="w-16 h-16 rounded-full ' + u.cor + ' flex items-center justify-center"><span class="font-display font-bold text-xl ' + u.textoCor + '">' + u.iniciais + '</span></div><div><p class="font-display font-bold text-lg text-neutral-900">' + u.nome + '</p><p class="text-sm text-neutral-500">' + u.email + '</p><span class="badge ' + u.cor + ' ' + u.textoCor + ' text-xs mt-1 inline-block">' + u.perfil + '</span></div></div><div class="space-y-2"><div class="flex justify-between p-3 bg-neutral-50 rounded-xl"><span class="text-xs text-neutral-500">Telefone</span><span class="text-sm font-medium text-neutral-900">' + u.telefone + '</span></div><div class="flex justify-between p-3 bg-neutral-50 rounded-xl"><span class="text-xs text-neutral-500">Último acesso</span><span class="text-sm font-medium text-neutral-900">' + u.ultimoAcesso + '</span></div><div class="p-3 bg-neutral-50 rounded-xl"><span class="text-xs text-neutral-500 block mb-1">Permissões</span><p class="text-sm text-neutral-700">' + u.permissoes + '</p></div></div></div>';
+      abrirModal(html, 'Detalhes do Usuário');
+    }
+
+    function administracao_editarUsuario() {
+      fecharModal();
+      toast('Funcionalidade de edição em desenvolvimento', 'info');
+    }
+
+    function administracao_mascaraCNPJ(input) {
+      let v = input.value.replace(/\D/g, '');
+      v = v.replace(/(\d{2})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d)/, '$1/$2');
+      v = v.replace(/(\d{4})(\d)/, '$1-$2');
+      v = v.replace(/(-\d{2})\d+?$/, '$1');
+      input.value = v;
+    }
+
+    function administracao_mascaraTelefone(input) {
+      let v = input.value.replace(/\D/g, '');
+      if (v.length > 11) v = v.slice(0, 11);
+      if (v.length > 6) v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
+      else if (v.length > 2) v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
+      input.value = v;
+    }
+    </script>
+
     <!-- TELAS -->
       </main>
 
