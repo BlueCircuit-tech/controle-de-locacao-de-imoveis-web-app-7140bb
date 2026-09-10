@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>ImobPro — Gestão de Locação</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            marca: {
+              50:  '#fef2f4',
+              100: '#fde6eb',
+              200: '#facdd7',
+              300: '#f5a4b3',
+              400: '#ec718a',
+              500: '#C41E3A',
+              600: '#a91830',
+              700: '#8c1428',
+              800: '#6f1020',
+              900: '#520c18',
+            },
+            escuro: {
+              50:  '#f6f6f7',
+              100: '#e2e3e6',
+              200: '#c5c7cc',
+              300: '#9fa2a9',
+              400: '#797d86',
+              500: '#5c6068',
+              600: '#484c54',
+              700: '#33373e',
+              800: '#1a1c21',
+              900: '#0f1014',
+              950: '#08090b',
+            },
+            destaque: {
+              50:  '#fff7ed',
+              100: '#ffedd5',
+              400: '#fb923c',
+              500: '#F97316',
+              600: '#ea580c',
+            },
+            ok:      '#16a34a',
+            erro:    '#dc2626',
+            info:    '#2563eb',
+          },
+          fontFamily: {
+            display: ['"DM Serif Display"', 'Georgia', 'serif'],
+            body:    ['"Nunito Sans"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'marca':  '0 2px 12px rgba(196, 30, 58, 0.18)',
+            'marca-lg': '0 6px 24px rgba(196, 30, 58, 0.22)',
+            'nav':    '0 -4px 20px rgba(0,0,0,0.06)',
+            'card':   '0 1px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06)',
+            'card-hover': '0 4px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.1)',
+          },
+          borderRadius: {
+            'app': '28px',
+            'card': '14px',
+            'input': '10px',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; overflow: hidden; }
+    body { font-family: 'Nunito Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 10px; }
+
+    *:focus-visible {
+      outline: 2px solid #C41E3A;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    @keyframes entradaTela {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    [data-tela]:not(.hidden) {
+      animation: entradaTela 0.28s ease-out;
+    }
+
+    @keyframes toastEntrada {
+      from { opacity: 0; transform: translateY(-12px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes toastSaida {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to   { opacity: 0; transform: translateY(-8px) scale(0.94); }
+    }
+    .toast-enter { animation: toastEntrada 0.25s ease-out; }
+    .toast-exit  { animation: toastSaida 0.2s ease-in forwards; }
+
+    @keyframes pulsoSuave {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.06); }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+    .badge-ok      { background: #dcfce7; color: #15803d; }
+    .badge-erro    { background: #fee2e2; color: #991b1b; }
+    .badge-aviso   { background: #fef3c7; color: #92400e; }
+    .badge-info    { background: #dbeafe; color: #1e40af; }
+    .badge-pendente { background: #f1f5f9; color: #475569; }
+    .badge-marca   { background: #fde6eb; color: #a91830; }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e3e6;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .card:active {
+      transform: scale(0.985);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-family: 'Nunito Sans', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.9375rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      line-height: 1.3;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: #C41E3A;
+      color: #fff;
+    }
+    .btn-primary:hover { background: #a91830; }
+    .btn-primary:active { background: #8c1428; }
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #33373e;
+      border: 1px solid #c5c7cc;
+    }
+    .btn-secondary:hover { background: #e2e3e6; }
+    .btn-ghost {
+      background: transparent;
+      color: #5c6068;
+    }
+    .btn-ghost:hover { background: #f1f5f9; }
+
+    .ativo {
+      color: #C41E3A;
+    }
+    .ativo svg { stroke: #C41E3A; }
+    .ativo .nav-label { color: #C41E3A; font-weight: 700; }
+    .ativo::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 3px;
+      background: #C41E3A;
+      border-radius: 2px;
+    }
+
+    @keyframes modalEntrada {
+      from { opacity: 0; transform: scale(0.94) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-escuro-950 text-escuro-800 antialiased">
+
+  <!-- ═══════════════ MOLDURA DO APP ═══════════════ -->
+  <div id="app-frame" class="fixed inset-0 md:flex md:items-center md:justify-center md:p-4 md:bg-escuro-950/80 z-50">
+
+    <!-- Aparelho -->
+    <div class="relative w-full h-full md:w-[390px] md:h-[min(844px,95vh)] md:rounded-app md:border-[6px] md:border-escuro-800 bg-escuro-50 flex flex-col overflow-hidden shadow-2xl">
+
+      <!-- ─── Barra de Status ─── -->
+      <div class="flex-shrink-0 h-[44px] px-7 flex items-center justify-between bg-escuro-50 text-escuro-800 select-none z-30">
+        <span id="hora" class="text-sm font-bold tracking-tight font-body">12:00</span>
+        <div class="flex items-center gap-1.5">
+          <!-- Sinal -->
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 8h1.5M3.5 6H5M6 4h1.5M8.5 2H10M11.5 1h1M14 3h1.5" opacity="0.4"/>
+            <path d="M1 9.5h1.5a3 3 0 0 1 3-3h1.5a4 4 0 0 1 4 4h1.5"/>
+          </svg>
+          <!-- Wi-Fi -->
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 9a2 2 0 0 1 4 0" opacity="0.3"/>
+            <path d="M2.5 6a5 5 0 0 1 9 0" opacity="0.6"/>
+            <path d="M0 3a8 8 0 0 1 16 0" opacity="0.9"/>
+            <circle cx="8" cy="11" r="0.8" fill="currentColor" stroke="none"/>
+          </svg>
+          <!-- Bateria -->
+          <svg width="25" height="12" viewBox="0 0 25 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none"/>
+            <rect x="2" y="2" width="17" height="8" rx="2" fill="currentColor" stroke="none" opacity="0.9"/>
+            <path d="M22.5 3.5v5a1.5 1.5 0 0 0 0-3"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ─── Header ─── -->
+      <header class="flex-shrink-0 h-[52px] px-5 flex items-center justify-between bg-escuro-50 border-b border-escuro-100 z-20">
+        <div class="flex items-center gap-2.5">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="7" fill="#C41E3A"/>
+            <path d="M6 10h4v12H6z" fill="#fff" opacity="0.95"/>
+            <path d="M11 7h4v15h-4z" fill="#fff"/>
+            <path d="M16 12h4v10h-4z" fill="#fff" opacity="0.8"/>
+            <path d="M7 8.5h2M7 11.5h2" stroke="#C41E3A" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <span class="font-display text-escuro-900 text-[1.05rem] leading-none tracking-tight block">ImobPro</span>
+            <span class="text-[0.6rem] text-escuro-400 font-semibold tracking-widest uppercase leading-none mt-0.5 block">Gestão</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="mostrarTela('notificacoes')" class="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-escuro-100 transition-colors" aria-label="Notificações">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5c6068" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+            <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-marca-500 rounded-full border-2 border-escuro-50"></span>
+          </button>
+          <button onclick="mostrarTela('administracao')" class="w-9 h-9 rounded-full bg-marca-500 text-white flex items-center justify-center text-xs font-bold" aria-label="Conta">
+            MC
+          </button>
+        </div>
+      </header>
+
+      <!-- ─── Conteúdo Principal ─── -->
+      <main id="main" class="flex-1 overflow-y-auto bg-escuro-50 relative overscroll-contain">
+        <!-- TELAS -->
+      </main>
+
+      <!-- ─── Navegação Inferior ─── -->
+      <nav class="flex-shrink-0 bg-white border-t border-escuro-100 shadow-nav z-30 pb-[env(safe-area-inset-bottom)]" role="navigation" aria-label="Navegação principal">
+        <div class="flex items-center justify-around h-[60px]">
+          <button data-nav="painel" onclick="mostrarTela('painel')" class="ativo relative flex flex-col items-center justify-center gap-1 w-[14.28%] h-full transition-colors duration-200 text-escuro-400" aria-label="Painel">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+            </svg>
+            <span class="nav-label text-[0.65rem] transition-colors duration-200">Painel</span>
+          </button>
+          <button data-nav="imoveis" onclick="mostrarTela('imoveis')" class="relative flex flex-col items-center justify-center gap-1 w-[14.28%] h-full transition-colors duration-200 text-escuro-400" aria-label="Imóveis">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span class="nav-label text-[0.65rem] transition-colors duration-200">Imóveis</span>
+          </button>
+          <button data-nav="contratos" onclick="mostrarTela('contratos')" class="relative flex flex-col items-center justify-center gap-1 w-[14.28%] h-full transition-colors duration-200 text-escuro-400" aria-label="Contratos">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span class="nav-label text-[0.65rem] transition-colors duration-200">Contratos</span>
+          </button>
+          <button data-nav="pagamentos" onclick="mostrarTela('pagamentos')" class="relative flex flex-col items-center justify-center gap-1 w-[14.28%] h-full transition-colors duration-200 text-escuro-400" aria-label="Pagamentos">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            <span class="nav-label text-[0.65rem] transition-colors duration-200">Pagam.</span>
+          </button>
+          <button data-nav="clientes" onclick="mostrarTela('clientes')" class="relative flex flex-col items-center justify-center gap-1 w-[14.28%] h-full transition-colors duration-200 text-escuro-400" aria-label="Clientes">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span class="nav-label text-[0.65rem] transition-colors duration-200">Clientes</span>
+          </button>
+          <button data-nav="relatorios" onclick="mostrarTela('relatorios')" class="relative flex flex-col items-center justify-center gap-1 w-[14.28%] h-full transition-colors duration-200 text-escuro-400" aria-label="Relatórios">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            <span class="nav-label text-[0.65rem] transition-colors duration-200">Relat.</span>
+          </button>
+          <button data-nav="notificacoes" onclick="mostrarTela('notificacoes')" class="relative flex flex-col items-center justify-center gap-1 w-[14.28%] h-full transition-colors duration-200 text-escuro-400" aria-label="Notificações">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <span class="nav-label text-[0.65rem] transition-colors duration-200">Notif.</span>
+          </button>
+          <button data-nav="administracao" onclick="mostrarTela('administracao')" class="relative flex flex-col items-center justify-center gap-1 w-[14.28%] h-full transition-colors duration-200 text-escuro-400" aria-label="Administração">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8l2.8-2.8M17 7l2.8-2.8"/>
+            </svg>
+            <span class="nav-label text-[0.65rem] transition-colors duration-200">Admin.</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ═══════════════ TOASTS ═══════════════ -->
+  <div id="toast-container" class="fixed top-4 left-4 right-4 z-[9999] flex flex-col items-center gap-2 pointer-events-none"></div>
+
+  <!-- ═══════════════ MODAL ═══════════════ -->
+  <div id="modal" class="fixed inset-0 z-[9998] hidden" role="dialog" aria-modal="true">
+    <div id="modal-backdrop" class="absolute inset-0 bg-escuro-900/50 backdrop-blur-sm transition-opacity duration-200"></div>
+    <div class="relative z-10 flex items-center justify-center min-h-full p-4">
+      <div id="modal-card" class="bg-white rounded-card shadow-card w-full max-w-sm max-h-[85vh] flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-escuro-100">
+          <h3 id="modal-titulo" class="font-display text-escuro-900 text-lg"></h3>
+          <button onclick="fecharModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-escuro-100 transition-colors flex-shrink-0" aria-label="Fechar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5c6068" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div id="modal-conteudo" class="p-5 overflow-y-auto"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ═══════════════ ROTEADOR ═══════════════
+    function mostrarTela(id) {
+      document.querySelectorAll('[data-tela]').forEach(function(s) {
+        s.classList.toggle('hidden', s.dataset.tela !== id);
+      });
+      document.querySelectorAll('[data-nav]').forEach(function(b) {
+        b.classList.toggle('ativo', b.dataset.nav === id);
+      });
+      window.scrollTo({ top: 0 });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      mostrarTela('painel');
+    });
+
+    // ═══════════════ RELÓGIO ═══════════════
+    function atualizarHora() {
+      var agora = new Date();
+      var h = String(agora.getHours()).padStart(2, '0');
+      var m = String(agora.getMinutes()).padStart(2, '0');
+      document.getElementById('hora').textContent = h + ':' + m;
+    }
+    atualizarHora();
+    setInterval(atualizarHora, 30000);
+
+    // ═══════════════ UTILITÁRIOS ═══════════════
+
+    function brl(valor) {
+      if (valor === null || valor === undefined || isNaN(valor)) return 'R$ 0,00';
+      return 'R$ ' + Number(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function dataBR(iso) {
+      if (!iso) return '—';
+      var d = new Date(iso + 'T00:00:00');
+      var dd = String(d.getDate()).padStart(2, '0');
+      var mm = String(d.getMonth() + 1).padStart(2, '0');
+      var aa = d.getFullYear();
+      return dd + '/' + mm + '/' + aa;
+    }
+
+    // ─── TOASTS ───
+    function toast(mensagem, tipo) {
+      var container = document.getElementById('toast-container');
+      var cores = {
+        ok:    'bg-emerald-600 text-white',
+        erro:  'bg-red-700 text-white',
+        info:  'bg-escuro-800 text-white',
+      };
+      var icones = {
+        ok:    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+        erro:  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+        info:  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+      };
+      tipo = tipo || 'info';
+
+      var el = document.createElement('div');
+      el.className = 'toast-enter pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-sm font-semibold ' + (cores[tipo] || cores.info);
+      el.innerHTML = (icones[tipo] || icones.info) + '<span>' + mensagem + '</span>';
+      container.appendChild(el);
+
+      setTimeout(function() {
+        el.classList.remove('toast-enter');
+        el.classList.add('toast-exit');
+        setTimeout(function() { el.remove(); }, 220);
+      }, 3000);
+    }
+
+    // ─── MODAL ───
+    function abrirModal(html, titulo) {
+      var modal = document.getElementById('modal');
+      document.getElementById('modal-titulo').textContent = titulo || '';
+      document.getElementById('modal-conteudo').innerHTML = html;
+      modal.classList.remove('hidden');
+      modal.querySelector('#modal-card').style.animation = 'modalEntrada 0.22s ease-out';
+    }
+    function fecharModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+    document.getElementById('modal-backdrop').addEventListener('click', fecharModal);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') fecharModal();
+    });
+  </script>
+</body>
+</html>
